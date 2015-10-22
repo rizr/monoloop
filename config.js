@@ -1,14 +1,14 @@
 module.exports = {
     monoloopConfig: {
         uri: 'api.monoloop.com/V1/',
-        accountId: '1166',
-        token: '97c109096d399d7507afdad6aefca829a270b8985e28edf24a9eaadb0a0daa4fa7babb8a7d602e229e1d03f4da38141a80f77f9f9f44be0e1f99733312ebb92e',
+        accountId: '1149',
+        token: 'de7be932702870c2ff5bef4c7bc96e001ab4f0bba8dcb1595e9684b01da18c32c658c7d50726efb3f0d35ae6be72cdd1d53e30546fbc40890d08fd8c933484a1',
     },
     dbConfig: {
-        user: process.env.USER || '',
-        pass: process.env.PASSWORD || '',
+        user: process.env.DB_USER || null,
+        pass: process.env.DB_PASSWORD || null,
         dbName: process.env.DB || 'monoloop',
-        port: process.env.PORT || '27017',
-        uri: process.env.URI || '127.0.0.1'
+        port: process.env.DB_PORT || '27017',
+        uri: process.env.DB_URI || '127.0.0.1'
     }
 };

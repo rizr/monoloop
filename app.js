@@ -3,34 +3,42 @@ var request = Promise.promisify(require('request'));
 var cron = require('cron').CronJob;
 var mongoose = Promise.promisifyAll(require("mongoose"));
 var Schema = mongoose.Schema;
+var MonoloopModel = require('./models/monoloopModel');
 var config = require('./config');
-
-var MongoConnectUri = 'mongodb://' + config.dbConfig.user + ':' + config.dbConfig.pass + '@' + config.dbConfig.uri + ':' + config.dbConfig.port + '/' + config.dbConfig.dbName;
 var MonoloopApiUri = 'https://' + config.monoloopConfig.accountId + ':' + config.monoloopConfig.token + '@' + config.monoloopConfig.uri;
 
-mongoose.connect(MongoConnectUri);
+mongoose.connect(config.dbConfig.uri + ':' + config.dbConfig.port + '/' + config.dbConfig.dbName, {
+    user: config.dbConfig.user,
+    pass: config.dbConfig.pass
+});
 mongoose.connection.once('open', function () {
     console.log('Mongo DataBase connected');
 });
 
 /*new cron('*//*10 * * * * *', function () {*/
-request(MonoloopApiUri + 'profiles/')
-    .spread(function (response, body) {
-        console.log(body)
-    }).catch(function (err) {
-        console.error(err);
-    });
+console.time('ParseMonoloopAPI');
+ParseMonoloopAPI(200, 0);
 
 /*}, null, true);*/
 
+function ParseMonoloopAPI(limit, offset) {
 
-/*
- var Monoloop = mongoose.model('Monoloop', new Schema({}));
-
- new Monoloop({name: 's', sdsa:333}).save();
-
- Monoloop.find(function (err, Monoloop) {
- console.log(Monoloop);
- });
- */
-
+    request({
+        uri: MonoloopApiUri + 'profiles/?limit=' + limit + '&' + 'offset=' + offset,
+        json: true
+    })
+        .spread(function (response, body) {
+            if (body.profiles.length) {
+                MonoloopModel.create(body.profiles).then(function (error, records) {
+                    if (error) console.log(error);
+                    ParseMonoloopAPI(limit, offset + limit);
+                });
+            } else {
+                console.log('PARSE FROM MONOLOOP DONE');
+                console.timeEnd('ParseMonoloopAPI');
+            }
+        })
+        .catch(function (err) {
+            console.error(err);
+        });
+}
