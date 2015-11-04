@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-var monoLoopSchema = new Schema({
+var MonoLoopSchema = new Schema({
     cid: Number,
     "MonoloopID": {
         type: String,
@@ -43,4 +43,4 @@ var monoLoopSchema = new Schema({
     "Gears": String
 });
 
-module.exports = mongoose.model('Monoloop', monoLoopSchema);
+module.exports = mongoose.model('Monoloop', MonoLoopSchema);
