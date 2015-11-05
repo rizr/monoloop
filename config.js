@@ -1,4 +1,9 @@
 module.exports = {
+    salesForceConfig: {
+        uri: 'https://www.exacttargetapis.com/hub/v1/',
+        clientId: "gawyvo5cwnuef8m91i6584pm",
+        clientSecret: "ERyOcVIdCqEbjpY5TUyU9O8M"
+    },
     monoloopConfig: {
         uri: 'api.monoloop.com/V1/',
         accountId: '1149',

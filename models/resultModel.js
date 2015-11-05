@@ -3,4 +3,4 @@ var Schema = mongoose.Schema;
 
 var ResultModelSchema = new Schema({});
 
-module.exports = mongoose.model('ResultModel', ResultModelSchema);
+module.exports = mongoose.model('Result', ResultModelSchema);
